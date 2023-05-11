@@ -42,7 +42,7 @@ function App() {
 					<Route path="/signup" element={<SignUpPage user={user} setUser={setUser} />} />
 					<Route path="/" element={<MainPage />} />
 					<Route path="/catalog" element={<ClothesPage />} />
-					<Route path="/news" element={<NewsPage />} />
+					<Route path="/news" element={<NewsPage user={user} />} />
 					<Route path="/map" element={<MapPage />} />
 					<Route path="/thing/:id" element={<OnePage user={user} />} />
 					{/* <Route path="/profile" element={<ProfilePage />} /> */}

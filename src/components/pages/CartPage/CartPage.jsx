@@ -14,7 +14,7 @@ const CartPage = () => {
 	const [user, setUser] = useState();
 	const [cartData, setCartData] = useState();
 	const [sum, setSum] = useState();
-	// const [pay, setPay] = useState(false);
+	const [pay, setPay] = useState(false);
 
 	// const [cvc, setCvc] = useState('');
 	// const [expiry, setExpiry] = useState('');
@@ -52,18 +52,21 @@ const CartPage = () => {
 		setSum(summa);
 	}, [cartData]);
 
-	// const handleModalWindowCloseButtonClick = useCallback((evt) => {
-	// 	evt.preventDefault();
-	// 	setPay(false);
-	// }, []);
+	const handleModalWindowCloseButtonClick = useCallback((evt) => {
+		evt.preventDefault();
+		setPay(false);
+	}, []);
 
-	// const handleModalWindowOverlayClick = useCallback((evt) => {
-	// 	if (evt.target.classList.contains(POPUP_OVERLAY_CLASSNAME)) {
-	// 		setPay(false);
-	// 	}
-	// }, []);
+	const handleModalWindowOverlayClick = useCallback((evt) => {
+		if (evt.target.classList.contains(POPUP_OVERLAY_CLASSNAME)) {
+			setPay(false);
+		}
+	}, []);
 
 	const userCart = cartData && cartData.filter((value) => user?.userCart && user?.userCart.includes(value._id));
+	const userOrder = cartData && cartData.filter((value) => user?.order && user?.order.includes(value._id));
+	console.log('user: ', user);
+	console.log('userOrder: ', userOrder);
 
 	return (
 		<>
@@ -91,28 +94,48 @@ const CartPage = () => {
 							<p className="empty">в корзине ничего нет</p>
 						)}
 					</div>
+
 					<div className="cart__bottom">
 						<p className="cart__summary">Общее: {sum}BYN</p>
 						{userCart?.length ? (
-							<button
-								className="cart__button"
-								//  onClick={() => setPay(true)}
-							>
+							<button className="cart__button" onClick={() => setPay(true)}>
 								продолжить бронирование
 							</button>
 						) : null}
 					</div>
+					<p className="empty">Забронированные авто</p>
+
+					<div className="cart__content">
+						{userOrder?.length ? (
+							userOrder.map((item) => (
+								<div className="cart__item">
+									<img className="cart__image" src={`${API_URL}/getImage/${item.avatar}`} alt="cart" />
+									<p className="cart__price">цена: {item.price}BYM</p>
+									{/* <button
+										className="cart__delete"
+										onClick={async () => {
+											await axios.patch(`${API_URL}/profileDeleteFromCart`, { productID: item._id, userID: user._id });
+											window.location.reload();
+										}}
+									>
+										удалить
+									</button> */}
+								</div>
+							))
+						) : (
+							<p className="empty">забронированных к покупке нет</p>
+						)}
+					</div>
 				</div>
 			</main>
 
-			{/* {pay && (
+			{pay && (
 				<Modal
-					title={"Оплатить"}
+					title={'Забронировать'}
 					onCloseButtonClick={handleModalWindowCloseButtonClick}
 					onOverlayClick={handleModalWindowOverlayClick}
 				>
 					<div className="pay__wrapper">
-						<Cards cvc={cvc} expiry={expiry} focused={focus} name={name} number={number} />
 						<form
 							className="par__form"
 							encType="multipart/form-data"
@@ -122,76 +145,36 @@ const CartPage = () => {
 
 								const formData = new FormData(evt.target);
 
-								// formData.append('userID', user._id);
+								const cars = userCart?.length && userCart.map((item) => item.name);
+								// console.log('cars: ', cars);
+								formData.append('cars', cars);
 
 								const responseData = await axios({
 									method: 'PATCH',
-									url: `${API_URL}/profileAddOrder?userId=${user._id}`,
+									url: `${API_URL}/profileAddOrder?userId=${user?._id}`,
 									data: formData,
 									withCredentials: true,
 								});
 								window.location.reload();
 							}}
 						>
+							<input className="pay__credit" type="text" name="name" required placeholder="Ваше ФИО" />
 							<input
 								className="pay__credit"
-								type="tel"
-								name="number"
-								placeholder="Card Number"
+								type="text"
+								name="phone"
+								required
+								placeholder="Номер телефона"
 								maxLength={16}
-								onChange={(e) => {
-									const { name, value } = e.target;
-									setNumber(value);
-								}}
-								onFocus={(e) => setFocus(e.target.name)}
 							/>
 
-							<input
-								className="pay__credit"
-								type="tel"
-								name="name"
-								placeholder="Card name"
-								onChange={(e) => {
-									const { name, value } = e.target;
-									setName(value);
-								}}
-								onFocus={(e) => setFocus(e.target.name)}
-							/>
+							<input className="pay__credit" type="email" name="email" required placeholder="Ваш email" />
 
-							<div className="pay__wrapper-b">
-								<input
-									className="pay__credit-b"
-									type="tel"
-									name="expiry"
-									placeholder="expiry"
-									maxLength={4}
-									onChange={(e) => {
-										const { value } = e.target;
-										setExpiry(value);
-									}}
-									onFocus={(e) => setFocus(e.target.name)}
-								/>
-
-								<input
-									className="pay__credit-b"
-									type="tel"
-									name="cvc"
-									placeholder="cvc"
-									maxLength={3}
-									onChange={(e) => {
-										const { value } = e.target;
-										setCvc(value);
-									}}
-									onFocus={(e) => setFocus(e.target.name)}
-								/>
-							</div>
-							<button className="pay__button">
-								оплатить
-							</button>
+							<button className="pay__button">Заказать</button>
 						</form>
 					</div>
 				</Modal>
-			)} */}
+			)}
 		</>
 	);
 };

@@ -20,6 +20,7 @@ const ClothesPage = () => {
 	const [cardData, setCardData] = useState();
 
 	const [filteredCards, setFilteredCards] = useState();
+	console.log('filteredCards: ', filteredCards);
 
 	const [filter, setFilter] = useState({
 		maxPrice: 10000,
@@ -66,9 +67,9 @@ const ClothesPage = () => {
 
 	const filterArray = (arr) => {
 		let newArr = arr && arr.filter((item) => item.price > filter.minPrice && item.price < filter.maxPrice);
-		console.log('filter: ', filter);
 
-		newArr = newArr.filter((item) => filter.type.includes(item.typeClothes));
+
+		newArr = newArr.filter((item) => filter.type.length == 0 ? item : filter.type.includes(item.typeClothes));
 
 		return newArr;
 	};

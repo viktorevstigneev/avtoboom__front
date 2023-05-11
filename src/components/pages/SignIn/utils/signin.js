@@ -16,7 +16,7 @@ const signIn = ({ formData, setUser }) => {
 			setUser(response.data);
 		})
 		.catch((error) => {
-			alert('Some thing went wrong, may be you entered incorrect password or login');
+			alert('неправильный логин или пароль');
 			console.log('error: ', error);
 		});
 };

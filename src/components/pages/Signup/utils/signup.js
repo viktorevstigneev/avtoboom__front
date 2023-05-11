@@ -16,7 +16,7 @@ const signUp = ({ formData, setUser }) => {
 			setUser(response.data);
 		})
 		.catch((error) => {
-			alert('Some thing went wrong, may be you entered incorrect password or login');
+			alert('что-то пошло не так, возможно такой пользователь уже существует');
 			console.log('error: ', error);
 		});
 };
