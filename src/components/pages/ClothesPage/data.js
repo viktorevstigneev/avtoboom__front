@@ -4,6 +4,14 @@ export const clothesType = [
 	{ id: 'Sedan', translate: 'Седан' },
 	{ id: 'Universal', translate: 'Универсал' },
 	{ id: 'Hatchback', translate: 'Хэтчбэк' },
+
+	{ id: 'Krossover', translate: 'Кроссовер' },
+	{ id: 'Kabriolet', translate: 'Кабриолет' },
+	{ id: 'Kupe', translate: 'Купе' },
+
+	{ id: 'Pickap', translate: 'Пикап' },
+	{ id: 'Mikro', translate: 'Микро' },
+	{ id: 'Liftback', translate: 'Лифтбэк' },
 ];
 
 export const sexType = [

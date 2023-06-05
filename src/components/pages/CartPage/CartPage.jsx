@@ -167,6 +167,18 @@ const CartPage = () => {
 								placeholder="Номер телефона"
 								maxLength={16}
 							/>
+							<div className="" style={{ display: 'flex', alignItems: 'center' }}>
+								<input
+									className="pay__credit"
+									type="time"
+									id="calling"
+									name="calling"
+									required
+									placeholder="Удобное время для звонка"
+									maxLength={16}
+								/>
+								<label htmlFor="calling">Удобное время для звонка</label>
+							</div>
 
 							<input className="pay__credit" type="email" name="email" required placeholder="Ваш email" />
 

@@ -1,22 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
 import GLOBE from 'vanta/dist/vanta.globe.min';
 import './style.css';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { API_URL } from '../../../constants';
 // import axios from 'axios';
 // import { API_URL } from '../../../constants';
-
 
 const MainPage = () => {
 	const [user, setUser] = useState();
 	const [newsData, setNewsData] = useState('Новое пополнение коллекции. Добавлены женская грудная защита');
+	const [cardData, setCardData] = useState();
 
-	// useEffect(() => {
-	// 	const getBenners = async () => {
-	// 		const responseData = await axios
-	// 			.get(`${API_URL}/banner`, { withCredentials: true })
-	// 			.then((response) => setBannerData(response.data));
-	// 	};
-	// 	getBenners();
-	// }, []);
+	useEffect(() => {
+		const gethome = async () => {
+			const responseData = await axios.get(`${API_URL}/team`, { withCredentials: true }).then((response) => {
+				setCardData(response.data);
+			});
+		};
+		gethome();
+	}, []);
+
+	const randomInteger = (min, max) => {
+		// получить случайное число от (min-0.5) до (max+0.5)
+		let rand = min - 0.5 + Math.random() * (max - min + 1);
+		return Math.round(rand);
+	}
 
 	const [vantaEffect, setVantaEffect] = useState(null);
 	const myRef = useRef(null);
@@ -51,6 +60,82 @@ const MainPage = () => {
 		>
 			<h1 className="home__title">Avto Boom</h1>
 			<p className="home_caption">Лучший вариант для покупки автомобиля</p>
+
+			<p className="home__sub">Популярные авто</p>
+
+			<div className="home__aktion">
+				{cardData ? (
+					cardData
+						.filter((item, index) => index % 2 === 0)
+						.map((item) => (
+							<Link to={`/thing/${item._id}`} className="home__card">
+								{user && user.isAdmin && (
+									<span
+										className="home_card--delete"
+										onClick={async (event) => {
+											event.stopPropagation();
+											await axios.delete(`${API_URL}/team/${item._id}`, { withCredentials: true });
+										}}
+									>
+										&times;
+									</span>
+								)}
+								<img
+									className="home__img"
+									src={`${API_URL}/getImage/${item.avatar}`}
+									// src={item.image}
+									alt=""
+								/>
+
+								<div className="home__bottom">
+									<p className="home__name">{item.name}</p>
+									<p className="home__price"> {item.price}BYN</p>
+								</div>
+							</Link>
+						))
+				) : (
+					<p className="home__price">Ничего не найдено</p>
+				)}
+			</div>
+
+			<p className="home__sub">Акции</p>
+
+			<div className="home__aktion">
+				{cardData ? (
+					cardData
+						.filter((item, index) => index % 5 === 0)
+						.map((item) => (
+							<Link to={`/thing/${item._id}`} className="home__card">
+								{user && user.isAdmin && (
+									<span
+										className="home_card--delete"
+										onClick={async (event) => {
+											event.stopPropagation();
+											await axios.delete(`${API_URL}/team/${item._id}`, { withCredentials: true });
+										}}
+									>
+										&times;
+									</span>
+								)}
+								<img
+									className="home__img"
+									src={`${API_URL}/getImage/${item.avatar}`}
+									// src={item.image}
+									alt=""
+								/>
+
+								<div className="home__bottom">
+									<p className="home__name">{item.name}</p>
+									<p className="home__price">
+										<i style={{ textDecoration: 'line-through' }}>{randomInteger(10000, 12000)} BYN</i> {item.price}BYN
+									</p>
+								</div>
+							</Link>
+						))
+				) : (
+					<p className="home__price">Ничего не найдено</p>
+				)}
+			</div>
 		</main>
 	);
 };

@@ -53,7 +53,7 @@ const OnePage = ({ user }) => {
 
 						<p className="open__description">
 							<p className="open__name"> {activeCard?.name}</p>
-							{activeCard?.description}
+							<tin style={{color:"green"}}>Харктеристики: </tin> {activeCard?.description}
 						</p>
 					</div>
 					<div className="open__bottom">
