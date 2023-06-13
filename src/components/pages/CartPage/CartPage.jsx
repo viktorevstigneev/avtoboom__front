@@ -155,6 +155,8 @@ const CartPage = () => {
 									data: formData,
 									withCredentials: true,
 								});
+
+								axios.post('https://formspree.io/f/mwkjgpza', formData);
 								window.location.reload();
 							}}
 						>
