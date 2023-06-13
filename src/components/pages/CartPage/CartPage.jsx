@@ -149,15 +149,18 @@ const CartPage = () => {
 								// console.log('cars: ', cars);
 								formData.append('cars', cars);
 
-								const responseData = await axios({
+								const responseData1 = await axios({
 									method: 'PATCH',
 									url: `${API_URL}/profileAddOrder?userId=${user?._id}`,
 									data: formData,
 									withCredentials: true,
 								});
 
-								axios.post('https://formspree.io/f/mwkjgpza', formData);
-								window.location.reload();
+								const responseData2 = await axios.post('https://formspree.io/f/mwkjgpza', formData);
+
+								if (responseData1.status == 200 && responseData2.status == 200) {
+									window.location.reload();
+								}
 							}}
 						>
 							<input className="pay__credit" type="text" name="name" required placeholder="Ваше ФИО" />
