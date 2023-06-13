@@ -14,7 +14,7 @@ const ClothesPage = () => {
 	const [user, setUser] = useState();
 
 	const [sliderMin, setMin] = useState(0);
-	const [sliderMax, setMax] = useState(10000);
+	const [sliderMax, setMax] = useState(1000000);
 	const [searchValue, setSearchValue] = useState('');
 
 	const [cardData, setCardData] = useState();
@@ -49,7 +49,7 @@ const ClothesPage = () => {
 		mySlider.addEventListener('slider:change', () => {
 			const { min, max } = mySlider.value;
 			setMin(min || 0);
-			setMax(max || 10000);
+			setMax(max || 1000000);
 		
 		});
 	}, []);
@@ -73,7 +73,7 @@ const ClothesPage = () => {
 						<div className="filter__top">
 							<div className="filter__block">
 								<h2 className="filter__title">Цена</h2>
-								<div id="my-slider" data-min="0" data-max="10000" data-range="10000"></div>
+								<div id="my-slider" data-min="0" data-max="1000000" data-range="1000000"></div>
 								<div className="filter__price">
 									<div className="filter__cost">{sliderMin}BYN</div>
 									<div className="filter__cost">{sliderMax}BYN</div>
