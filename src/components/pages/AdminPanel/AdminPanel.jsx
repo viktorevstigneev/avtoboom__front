@@ -59,7 +59,7 @@ const AdminPanel = () => {
 					<input className="admin__text-input" type="text" name="name" id="name" />
 
 					<label className="music__label" htmlFor="type">
-						тип
+						тип кузова
 					</label>
 					<select className="admin__text-input" name="typeClothes" id="type">
 						{clothesType.map(({ id, translate }) => (
@@ -69,16 +69,43 @@ const AdminPanel = () => {
 						))}
 					</select>
 
-					{/* <label className="music__label" htmlFor="sex">
-						пол
+					<label className="music__label" htmlFor="year">
+						год выпуска
 					</label>
-					<select className="admin__text-input" name="sexThing" id="sex">
+					<input
+						className="admin__text-input"
+						type="number"
+						min="1900"
+						max="2024"
+						step="1"
+						defaultValue="2023"
+						name="year"
+						id="year"
+					/>
+
+					<label className="music__label" htmlFor="miliesKM">
+						пробег автомобиля(km)
+					</label>
+					<input
+						className="admin__text-input"
+						min="0"
+						max="1000000000"
+						step="1"
+						defaultValue="0"
+						name="miliesKM"
+						id="miliesKM"
+					/>
+
+					<label className="music__label" htmlFor="engine">
+						Тип двигателя
+					</label>
+					<select className="admin__text-input" name="engine" id="engine">
 						{sexType.map(({ id }) => (
 							<option className="option__item" data-value={id} key={id}>
 								{id}
 							</option>
 						))}
-					</select> */}
+					</select>
 
 					<label className="music__label" htmlFor="decript">
 						описание
@@ -88,7 +115,7 @@ const AdminPanel = () => {
 					<label className="music__label" htmlFor="price">
 						цена
 					</label>
-					<input className="admin__text-input" type="number" name="price" id="price" />
+					<input className="admin__text-input" type="number" min="0" name="price" id="price" />
 					<button className="admin__button" type="submit">
 						добавить автомобиль
 					</button>

@@ -15,8 +15,10 @@ export const clothesType = [
 ];
 
 export const sexType = [
-	{ id: 'Male', translate: 'male' },
-	{ id: 'Female', translate: 'female' },
+	{ id: 'Бензиновый', translate: 'Бензиновый' },
+	{ id: 'Дизельный', translate: 'Дизельный' },
+	{ id: 'Гибридный', translate: 'Гибридный' },
+	{ id: 'Роторный', translate: 'Роторный' },
 ];
 
 export const cardsData = [

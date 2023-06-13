@@ -25,41 +25,45 @@ const MainPage = () => {
 		// получить случайное число от (min-0.5) до (max+0.5)
 		let rand = min - 0.5 + Math.random() * (max - min + 1);
 		return Math.round(rand);
-	}
+	};
 
-	const [vantaEffect, setVantaEffect] = useState(null);
-	const myRef = useRef(null);
-	useEffect(() => {
-		if (!vantaEffect) {
-			setVantaEffect(
-				GLOBE({
-					el: myRef.current,
-					mouseControls: true,
-					touchControls: true,
-					gyroControls: false,
-					minHeight: 200.0,
-					minWidth: 200.0,
-					scale: 1.0,
-					scaleMobile: 1.0,
-					color: 0x8e5b6f,
-					color2: 0x81de28,
-					backgroundColor: 0x0,
-					size: 1.0,
-				})
-			);
-		}
-		return () => {
-			if (vantaEffect) vantaEffect.destroy();
-		};
-	}, [vantaEffect]);
+	// const [vantaEffect, setVantaEffect] = useState(null);
+	// const myRef = useRef(null);
+	// useEffect(() => {
+	// 	if (!vantaEffect) {
+	// 		setVantaEffect(
+	// 			GLOBE({
+	// 				el: myRef.current,
+	// 				mouseControls: true,
+	// 				touchControls: true,
+	// 				gyroControls: false,
+	// 				minHeight: 200.0,
+	// 				minWidth: 200.0,
+	// 				scale: 1.0,
+	// 				scaleMobile: 1.0,
+	// 				color: 0x0,
+	// 				color2: 0xff0000,
+	// 				size: 1.5,
+	// 				backgroundColor: 0xaaaaaa,
+	// 			})
+	// 		);
+	// 	}
+	// 	return () => {
+	// 		if (vantaEffect) vantaEffect.destroy();
+	// 	};
+	// }, [vantaEffect]);
 
 	return (
 		<main
 			className="home__main"
-			 ref={myRef}
+			//  ref={myRef}
 		>
 			<h1 className="home__title">Avto Boom</h1>
-			<p className="home_caption">Лучший вариант для покупки автомобиля</p>
+			<p className="home_caption">
+				Добро пожаловать!!!
+				<br /> авто бум - это удобный способ купить <br /> или продать авто. Объявления о продаже новых <br /> и
+				подержанных автомобилей.
+			</p>
 
 			<p className="home__sub">Популярные авто</p>
 

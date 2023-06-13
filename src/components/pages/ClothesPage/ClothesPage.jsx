@@ -18,17 +18,11 @@ const ClothesPage = () => {
 	const [searchValue, setSearchValue] = useState('');
 
 	const [cardData, setCardData] = useState();
+	console.log('cardData: ', cardData);
 
 	const [filteredCards, setFilteredCards] = useState();
-	console.log('filteredCards: ', filteredCards);
 
-	const [filter, setFilter] = useState({
-		maxPrice: 10000,
-		minPrice: 0,
-		// sex: ['Female', 'Male'],
-		type: [],
-	});
-
+	
 	useEffect(() => {
 		const getCurrentUser = async () => {
 			const responseData = await axios
@@ -46,8 +40,7 @@ const ClothesPage = () => {
 			});
 		};
 		getClothes();
-		// setCardData(cardsData);
-		// setFilteredCards(cardsData);
+		
 	}, []);
 
 	useEffect(() => {
@@ -57,38 +50,26 @@ const ClothesPage = () => {
 			const { min, max } = mySlider.value;
 			setMin(min || 0);
 			setMax(max || 10000);
-			setFilter({
-				...filter,
-				minPrice: min,
-				maxPrice: max,
-			});
+		
 		});
 	}, []);
 
-	const filterArray = (arr) => {
-		let newArr = arr && arr.filter((item) => item.price > filter.minPrice && item.price < filter.maxPrice);
-
-
-		newArr = newArr.filter((item) => filter.type.length == 0 ? item : filter.type.includes(item.typeClothes));
-
-		return newArr;
-	};
-
-	const handleApplyFilters = (evt) => {
-		evt.preventDefault();
-
-		setFilteredCards(filterArray(cardData));
-	};
+;
 
 	const handleSearhChange = (evt) => {
 		setSearchValue(evt.target.value);
 	};
 
+	const [cuzov, setCuzov] = useState('');
+	const [engine, setEngine] = useState('');
+	const [year, setYear] = useState('');
+	const [km, setKm] = useState('');
+
 	return (
 		<>
 			<main className="clothes">
 				<div className="clothes__container">
-					<form className="Clothes__top" action="" onSubmit={handleApplyFilters}>
+					<form className="Clothes__top" action="">
 						<div className="filter__top">
 							<div className="filter__block">
 								<h2 className="filter__title">Цена</h2>
@@ -99,65 +80,76 @@ const ClothesPage = () => {
 								</div>
 							</div>
 							<div className="filter__block">
-								<h2 className="filter__title">Тип</h2>
-								<div className="filter__wrapper">
+								<h2 className="filter__title">Тип кузова</h2>
+								<select className="filter__wrapper" onChange={(evt) => setCuzov(evt.target.value)}>
 									{clothesType.map(({ id, translate }) => (
-										<div className="filter__item">
-											<input
-												className="filter__checkbox"
-												onChange={(evt) => {
-													const newArr = filter.type;
-
-													if (evt.target.checked) {
-														newArr.push(evt.target.name);
-														let set = new Set(newArr);
-
-														setFilter({
-															...filter,
-															type: Array.from(set),
-														});
-													} else {
-														newArr.pop(evt.target.name);
-														let set = new Set(newArr);
-
-														setFilter({
-															...filter,
-															type: Array.from(set),
-														});
-													}
-
-													if (filter.type.length == 0) {
-														setFilter({
-															...filter,
-															type: ['Седан', 'Универсал', 'Хэтчбэк'],
-														});
-													}
-												}}
-												type="checkbox"
-												id={translate}
-												name={translate}
-											/>
-											<label className="filter__label" htmlFor={translate}>
-												{translate}
-											</label>
-										</div>
+										<option value={translate}>{translate}</option>
 									))}
-								</div>
+								</select>
+							</div>
+
+							<div className="filter__block">
+								<h2 className="filter__title">Тип двигателя</h2>
+								<select className="filter__wrapper" onChange={(evt) => setEngine(evt.target.value)}>
+									{sexType.map(({ id, translate }) => (
+										<option value={translate}>{translate}</option>
+									))}
+								</select>
+							</div>
+
+							<div className="filter__block">
+								<h2 className="filter__title">Год выпуска</h2>
+								<input
+									className="filter__wrapper"
+									onChange={(evt) => setYear(evt.target.value)}
+									type="number"
+									min="1900"
+									max="2024"
+									step="1"
+									defaultValue="2023"
+								/>
+							</div>
+
+							<div className="filter__block">
+								<h2 className="filter__title">Пробег</h2>
+								<input
+									className="filter__wrapper"
+									onChange={(evt) => setKm(evt.target.value)}
+									type="number"
+									min="0"
+									max="10000000"
+									step="1"
+									defaultValue="0"
+								/>
 							</div>
 						</div>
-						<button className="filter__apply">Применить фильтры</button>
+
 						<input
 							className="filter__search"
 							type="text"
 							placeholder="введите слово для поиска(поиск автоматический)"
 							onChange={handleSearhChange}
 						/>
+
+						<div
+							className="filter__apply"
+							onClick={() => {
+								window.location.reload();
+							}}
+						>
+							сбросить фильтры
+						</div>
 					</form>
 
 					<div className="clothes__content">
 						{filteredCards ? (
 							filteredCards
+								.filter((item) => (km.length == 0 ? item : km.includes(item.miliesKM)))
+								.filter((item) => (year.length == 0 ? item : year.includes(item.year)))
+								.filter((item) => (cuzov.length == 0 ? item : cuzov.includes(item.typeClothes)))
+								.filter((item) => (engine.length == 0 ? item : engine.includes(item.engine)))
 								.filter((item) => searchValue == '' || item?.name.includes(searchValue))
+								.filter((item) => item.price > sliderMin && item.price < sliderMax)
 								.map((item) => (
 									<Link to={`/thing/${item._id}`} className="clothes__card">
 										{user && user.isAdmin && (
@@ -165,7 +157,9 @@ const ClothesPage = () => {
 												className="clothes_card--delete"
 												onClick={async (event) => {
 													event.stopPropagation();
+													event.preventDefault();
 													await axios.delete(`${API_URL}/team/${item._id}`, { withCredentials: true });
+													window.location.reload();
 												}}
 											>
 												&times;

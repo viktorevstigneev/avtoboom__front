@@ -21,6 +21,7 @@ const OnePage = ({ user }) => {
 	const [cardPrice, setCardPrice] = useState(activeCard && activeCard.price);
 	const [cardDesc, setCardDesc] = useState(activeCard && activeCard.description);
 	console.log('activeCard.description: ', activeCard?.description);
+	console.log('activeCard: ', activeCard);
 	console.log('cardDesc: ', cardDesc);
 	const [file, setFile] = useState('');
 
@@ -53,7 +54,17 @@ const OnePage = ({ user }) => {
 
 						<p className="open__description">
 							<p className="open__name"> {activeCard?.name}</p>
-							<tin style={{color:"green"}}>Харктеристики: </tin> {activeCard?.description}
+							<tin style={{ color: 'green' }}>Харктеристики: </tin>
+							<br />
+							<tin style={{ color: 'red' }}>Двигатель:</tin> {activeCard?.engine}
+							<br />
+							<tin style={{ color: 'red' }}>Год выпуска:</tin> {activeCard?.year}
+							<br />
+							<tin style={{ color: 'red' }}>Пробег:</tin> {activeCard?.miliesKM}
+							<br />
+							<tin style={{ color: 'red' }}>Кузов:</tin> {activeCard?.typeClothes}
+							<br />
+							<tin style={{ color: 'red' }}>Описание:</tin> {activeCard?.description}
 						</p>
 					</div>
 					<div className="open__bottom">
