@@ -131,7 +131,7 @@ const MainPage = () => {
 								<div className="home__bottom">
 									<p className="home__name">{item.name}</p>
 									<p className="home__price">
-										<i style={{ textDecoration: 'line-through' }}>{randomInteger(10000, 12000)} BYN</i> {item.price}BYN
+										<i style={{ textDecoration: 'line-through' }}>{randomInteger(10000000, 1200000)} BYN</i> {item.price}BYN
 									</p>
 								</div>
 							</Link>
