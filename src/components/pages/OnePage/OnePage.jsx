@@ -20,9 +20,10 @@ const OnePage = ({ user }) => {
 
 	const [cardPrice, setCardPrice] = useState(activeCard && activeCard.price);
 	const [cardDesc, setCardDesc] = useState(activeCard && activeCard.description);
-	console.log('activeCard.description: ', activeCard?.description);
-	console.log('activeCard: ', activeCard);
-	console.log('cardDesc: ', cardDesc);
+	const [cardYear, setCardYear] = useState(activeCard && activeCard.year);
+	const [cardEngine, serCardEngine] = useState(activeCard && activeCard.engine);
+	const [cardMilesKm, serCardMiliesKm] = useState(activeCard && activeCard.miliesKM);
+
 	const [file, setFile] = useState('');
 
 	useEffect(() => {
@@ -38,6 +39,9 @@ const OnePage = ({ user }) => {
 	useEffect(() => {
 		setCardPrice(activeCard && activeCard.price);
 		setCardDesc(activeCard && activeCard.description);
+		setCardYear(activeCard && activeCard.year);
+		serCardEngine(activeCard && activeCard.engine);
+		serCardMiliesKm(activeCard && activeCard.miliesKM);
 	}, [activeCard]);
 
 	return (
@@ -154,6 +158,49 @@ const OnePage = ({ user }) => {
 									value={cardPrice}
 								/>
 								BYN
+							</p>
+						</div>
+
+						<div className="e__bottom">
+							<p className="e__price">
+								двигатель:{' '}
+								<input
+									type="text"
+									name="engine"
+									onChange={(evt) => {
+										serCardEngine(evt.target.value);
+									}}
+									value={cardEngine}
+								/>
+							</p>
+						</div>
+
+						<div className="e__bottom">
+							<p className="e__price">
+								пробег:{' '}
+								<input
+									type="text"
+									name="miliesKM"
+									onChange={(evt) => {
+										serCardMiliesKm(evt.target.value);
+									}}
+									value={cardMilesKm}
+								/>
+							</p>
+						</div>
+
+						<div className="e__bottom">
+							<p className="e__price">
+								год выпуска:{' '}
+								<input
+									type="text"
+									name="year"
+									onChange={(evt) => {
+										setCardYear(evt.target.value);
+									}}
+									value={cardYear}
+								/>
+							
 							</p>
 						</div>
 
